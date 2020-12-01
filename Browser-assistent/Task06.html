@@ -14,14 +14,29 @@
     Dieser Prototyp ist die Umsetzung der vorherigen Aufgabe als Browser-VUI.
   </p>
   <p>
-    Diese Anwendung ist als Assistent für daheim gedacht, die Termine verwaltet
+    Diese Anwendung ist als Assistent für daheim gedacht, die Termine verwaltet,
     Erinnerungen setzen und bei verschiedenen Aktivitäten unterstützen kann.
     Subroutinen wurden aber nicht weiter implememtiert und nur angedeutet.
+  </p>
+  <p>
+    Die Push-Benachrichtigung wird gestartet sobald ein Termin in z.B. zwei
+    Stunden ist. Erst wird nachgefragt, ob man rechtzeitig erinnert werden
+    möchte um sich noch zu richten und los zu fahren/gehen. Dann werden
+    verschiedene Möglichkeiten geboten um die Zeit dazwischen zu nutzen oder
+    vorrauschschauend Aufgaben, wie Kochen oder Lernen zu planen.
   </p>
   <!-- p>
       <ul id="appointments">
       </ul>
   </p -->
   <!-- button id="start"><span>Assistent Starten</span></button -->
+
+  <button id="sayStart" onclick="say('start')"><span>Start</span></button>
+  <button id="sayNo" onclick="say('no')"><span>"No" or negative</span></button>
+  <button id="sayYes" onclick="say('yes')"><span>"Yes" or positive</span></button>
+  <button id="sayStop" onclick="sayMute('stop')"><span>Stop</span></button>
+  <!-- button id="sayHello" onclick="sayHello()"><span>Hello</span></button>
+  <button id="sayHello" onclick="sayHello()"><span>Hello</span></button -->
+
 </body>
 </html>

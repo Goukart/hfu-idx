@@ -1,4 +1,5 @@
 declare var Artyom: any;
+const artyom = new Artyom();
 
 class reminder {
   public readonly name: string;
@@ -16,42 +17,54 @@ class reminder {
   }
 }
 
+let initialAppointment: reminder = new reminder("some appointment", 1530, "some city");
+
+
+function say(_text: string): void {
+  artyom.simulateInstruction(_text); //Simulate a voice  command with voice
+  artyom.say(_text);
+}
+function sayMute(_text: string): void {
+  artyom.simulateInstruction(_text);
+  alert("Stopped");
+}
+
+
+artyom.addCommands([
+  {
+    indexes:["yes"],
+    action:function(){
+      artyom.say();
+    }
+  },
+  {
+    indexes:["stop"],
+    action:function(){
+      artyom.shutUp();
+    }
+  },
+  {
+    indexes:["start"],
+    action:function(){
+      artyom.say(`Hey Visitor, you have an apointment at 15:30, in ${initialAppointment.city}. It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?`);
+      console.log(`Hey Visitor, you have an apointment at 15:30, in ${initialAppointment.city}. It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?`)
+    }
+  }
+]);
+
 
 window.addEventListener("load", function (): void {
-  const artyom = new Artyom();
 
-
-  artyom.addCommands({
-      indexes: ["Hallo *"],
-      smart: true,
-      action: function(i: any, wildcard: string): void {
-          console.log("Name: " + wildcard);
-      }
-  });
 
   function startContinuousArtyom(): void {
-      artyom.fatality();
+    artyom.fatality();
 
-      setTimeout(
-          function(): void {
-              artyom.initialize({
-                  lang: "de-DE",
-                  continuous: true,
-                  listen: true,
-                  interimResults: true,
-                  debug: true
-              }).then(function(): void {
-                  console.log("Ready!");
-              });
-          },
-          250);
+    start();
   }
 
   startContinuousArtyom();
 
   function start() {
-    let initialAppointment: reminder = new reminder("some appointment", 1530, "some city");
-
     artyom.fatality();
 
     setTimeout(function () {
@@ -65,8 +78,5 @@ window.addEventListener("load", function (): void {
         console.log("Ready!");
       });
     }, 250);
-
-    //artyom.say("Hey Visitor, "); //you have an apointment at 15:30 in ${initialAppointment.city}. It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?
   }
 });
-//# sourceMappingURL=artyom-script.js.map

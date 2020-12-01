@@ -1,3 +1,4 @@
+var artyom = new Artyom();
 var reminder = /** @class */ (function () {
     function reminder(_name, _time, _city) {
         this.name = _name;
@@ -9,32 +10,43 @@ var reminder = /** @class */ (function () {
     };
     return reminder;
 }());
-window.addEventListener("load", function () {
-    var artyom = new Artyom();
-    artyom.addCommands({
-        indexes: ["Hallo *"],
-        smart: true,
-        action: function (i, wildcard) {
-            console.log("Name: " + wildcard);
+var initialAppointment = new reminder("some appointment", 1530, "some city");
+function say(_text) {
+    artyom.simulateInstruction(_text); //Simulate a voice  command with voice
+    artyom.say(_text);
+}
+function sayMute(_text) {
+    artyom.simulateInstruction(_text);
+    alert("Stopped");
+}
+artyom.addCommands([
+    {
+        indexes: ["yes"],
+        action: function () {
+            artyom.say();
         }
-    });
+    },
+    {
+        indexes: ["stop"],
+        action: function () {
+            artyom.shutUp();
+        }
+    },
+    {
+        indexes: ["start"],
+        action: function () {
+            artyom.say("Hey Visitor, you have an apointment at 15:30, in " + initialAppointment.city + ". It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?");
+            console.log("Hey Visitor, you have an apointment at 15:30, in " + initialAppointment.city + ". It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?");
+        }
+    }
+]);
+window.addEventListener("load", function () {
     function startContinuousArtyom() {
         artyom.fatality();
-        setTimeout(function () {
-            artyom.initialize({
-                lang: "de-DE",
-                continuous: true,
-                listen: true,
-                interimResults: true,
-                debug: true
-            }).then(function () {
-                console.log("Ready!");
-            });
-        }, 250);
+        start();
     }
     startContinuousArtyom();
     function start() {
-        var initialAppointment = new reminder("some appointment", 1530, "some city");
         artyom.fatality();
         setTimeout(function () {
             artyom.initialize({
@@ -47,7 +59,5 @@ window.addEventListener("load", function () {
                 console.log("Ready!");
             });
         }, 250);
-        //artyom.say("Hey Visitor, "); //you have an apointment at 15:30 in ${initialAppointment.city}. It takes around 45min to get there. Would you like me to remind you 50min early, to get ready?
     }
 });
-//# sourceMappingURL=artyom-script.js.map
